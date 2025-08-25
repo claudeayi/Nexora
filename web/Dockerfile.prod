@@ -1,0 +1,19 @@
+# Build
+FROM node:18-alpine AS builder
+WORKDIR /app
+COPY package.json ./
+RUN npm install
+COPY index.html ./index.html
+COPY src ./src
+COPY vite.config.js ./vite.config.js
+ARG VITE_API_URL=/api
+ARG VITE_TENANT_KEY=default
+ENV VITE_API_URL=$VITE_API_URL
+ENV VITE_TENANT_KEY=$VITE_TENANT_KEY
+RUN npm run build
+
+# Serve
+FROM nginx:alpine
+COPY --from=builder /app/dist /usr/share/nginx/html
+RUN printf 'server {\\n  listen 80;\\n  server_name _;\\n  root /usr/share/nginx/html;\\n  index index.html;\\n  location / { try_files $uri /index.html; }\\n}\\n' > /etc/nginx/conf.d/default.conf
+EXPOSE 80
