@@ -1,0 +1,103 @@
+generator client { provider = "prisma-client-js" }
+datasource db { provider = "mysql"; url = env("DATABASE_URL") }
+
+model Tenant {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  name      String
+  users     User[]
+  leads     Lead[]
+  links     Link[]
+  clicks    Click[]
+  events    Event[]
+  createdAt DateTime @default(now())
+}
+
+model User {
+  id            String         @id @default(cuid())
+  email         String         @unique
+  passwordHash  String
+  name          String?
+  role          String         @default("user")
+  plan          String         @default("free")
+  tenantId      String
+  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscriptions Subscription[]
+}
+
+model Lead {
+  id         String   @id @default(cuid())
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  email      String
+  name       String?
+  phone      String?
+  score      Int      @default(0)
+  utmSource  String?
+  utmMedium  String?
+  utmCampaign String?
+  createdAt  DateTime @default(now())
+}
+
+model Link {
+  id         String   @id @default(cuid())
+  tenantId   String
+  tenant     Tenant   @relation(fields: [tenantId], references: [id])
+  slug       String   @unique
+  destination String
+  clicks     Click[]
+  createdAt  DateTime @default(now())
+}
+
+model Click {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  linkId    String
+  link      Link     @relation(fields: [linkId], references: [id])
+  createdAt DateTime @default(now())
+}
+
+model Event {
+  id        String   @id @default(cuid())
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  name      String
+  properties Json?
+  createdAt DateTime @default(now())
+}
+
+model Experiment {
+  id       String   @id @default(cuid())
+  name     String   @unique
+  status   String   @default("active")
+  variants Variant[]
+}
+
+model Variant {
+  id           String   @id @default(cuid())
+  name         String
+  weight       Int      @default(50)
+  views        Int      @default(0)
+  conversions  Int      @default(0)
+  experimentId String
+  experiment   Experiment @relation(fields: [experimentId], references: [id])
+}
+
+model FeatureFlag {
+  id    String @id @default(cuid())
+  key   String @unique
+  on    Boolean @default(true)
+  rules Json?
+}
+
+model Subscription {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+  plan      String
+  status    String   @default("active")
+  createdAt DateTime @default(now())
+}
