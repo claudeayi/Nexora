@@ -1,0 +1,7 @@
+nexora-futurist/
+ ├── api/           # Backend Node.js (Express + Prisma + Billing + Multi-tenant)
+ ├── web/           # Frontend React (Vite + API calls)
+ ├── docker-compose.dev.yml
+ ├── docker-compose.prod.yml
+ ├── docker-compose.ssl.yml
+ └── infra/caddy/   # Proxy SSL (Caddy)
