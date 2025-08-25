@@ -1,0 +1,12 @@
+api/
+ └── src/
+      ├── index.js        # point d'entrée API
+      ├── seed.js         # script pour créer un admin & tenant par défaut
+      └── routes/
+           ├── auth.js
+           ├── leads.js
+           ├── links.js
+           ├── events.js
+           ├── experiments.js
+           ├── meta.js
+           └── billing.js
