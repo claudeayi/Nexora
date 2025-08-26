@@ -1,7 +1,25 @@
-nexora-futurist/
- ├── api/           # Backend Node.js (Express + Prisma + Billing + Multi-tenant)
- ├── web/           # Frontend React (Vite + API calls)
- ├── docker-compose.dev.yml
- ├── docker-compose.prod.yml
- ├── docker-compose.ssl.yml
- └── infra/caddy/   # Proxy SSL (Caddy)
+api/
+├── Dockerfile
+├── README.md
+├── package.json
+├── .env.example
+├── prisma/
+│   └── schema.prisma
+└── src/
+    ├── index.js
+    ├── seed.js
+    ├── lib/
+    │   ├── prisma.js
+    │   └── util.js
+    ├── middlewares/
+    │   ├── auth.js
+    │   └── tenant.js
+    └── routes/
+        ├── auth.js
+        ├── billing.js
+        ├── copilot.js
+        ├── events.js
+        ├── experiments.js
+        ├── leads.js
+        ├── links.js
+        └── meta.js
