@@ -5,9 +5,18 @@ import App from './App'
 import { AuthProvider } from './auth'
 import './styles.css'
 
-createRoot(document.getElementById('root')).render(
+// Récupère l’élément root (avec fallback)
+const container = document.getElementById('root')
+if (!container) {
+  throw new Error("❌ Élément #root introuvable dans index.html")
+}
+const root = createRoot(container)
+
+root.render(
   <React.StrictMode>
+    {/* BrowserRouter = navigation côté client */}
     <BrowserRouter>
+      {/* AuthProvider = gestion du contexte utilisateur */}
       <AuthProvider>
         <App />
       </AuthProvider>
