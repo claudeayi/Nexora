@@ -1,7 +1,70 @@
+# --- Python bytecode & caches ---
 __pycache__/
-*.pyc
+*.py[cod]
+*$py.class
 *.pyo
 *.pyd
-.env
+
+# --- Virtual environments & tooling ---
+.venv/
+venv/
+ENV/
+env/
+pip-wheel-metadata/
+pip-log.txt
+poetry.lock
+poetry.toml
+Pipfile
+Pipfile.lock
+
+# --- Testing & coverage ---
+.pytest_cache/
+.coverage
+.coverage.*
+.cache/
+htmlcov/
+.tox/
+.nox/
+
+# --- Type checking / linting ---
+.mypy_cache/
+.pyre/
+.pytype/
+ruff_cache/
+
+# --- Build / dist / packaging ---
+build/
+dist/
+*.egg-info/
+.eggs/
+wheels/
+site/
+docs/_build/
+.sphinx/
+.mkdocs/
+*.manifest
+*.spec
+
+# --- Notebooks ---
+.ipynb_checkpoints/
+
+# --- IDE / Editors ---
 .vscode/
 .idea/
+*.iml
+
+# --- OS / misc ---
+.DS_Store
+Thumbs.db
+
+# --- Env & secrets ---
+.env
+.env.*
+*.env
+secrets*.json
+*.key
+*.pem
+
+# --- Docker / Compose (local) ---
+docker-compose.override.yml
+*.local.yml
