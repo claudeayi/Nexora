@@ -6,20 +6,25 @@ api/
 ├── prisma/
 │   └── schema.prisma
 └── src/
-    ├── index.js
-    ├── seed.js
+    ├── index.js                         # serveur Express (app boot)
+    ├── seed.js                          # seed admin + tenant "default"
     ├── lib/
-    │   ├── prisma.js
-    │   └── util.js
+    │   ├── prisma.js                    # PrismaClient singleton
+    │   ├── util.js                      # ledgerHash, helpers
+    │   ├── scoring.js                   # computeLeadScore, helpers scoring
+    │   ├── ai.js                        # proxy microservice IA (generate, predict, pricing)
+    │   └── notify.js                    # bus notifications + buffer (SSE/polling)
     ├── middlewares/
-    │   ├── auth.js
-    │   └── tenant.js
+    │   ├── auth.js                      # JWT, Bearer, options required/optional
+    │   └── tenant.js                    # resolveTenant (x-tenant / ?t= / default)
     └── routes/
-        ├── auth.js
-        ├── billing.js
-        ├── copilot.js
-        ├── events.js
-        ├── experiments.js
-        ├── leads.js
-        ├── links.js
-        └── meta.js
+        ├── auth.js                      # login, me, register (si besoin)
+        ├── leads.js                     # CRUD leads + scoring
+        ├── links.js                     # liens courts + clics
+        ├── events.js                    # pixel.gif, sdk.js, POST /events, GET /stream, /notifications
+        ├── experiments.js               # A/B assign/convert
+        ├── billing.js                   # subscribe/plan/checkout (LOCAL/STRIPE/PAYPAL/CINETPAY)
+        ├── copilot.js                   # overview IA, generate, lead/score, ab/suggest, pricing/suggest, alerts
+        ├── marketplace.js               # install/uninstall + list installed
+        ├── reports.js                   # /reports/overview (fallback pour UI)
+        └── meta.js                      # / (status, version, info)
