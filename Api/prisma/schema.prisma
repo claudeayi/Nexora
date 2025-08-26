@@ -19,6 +19,7 @@ model Tenant {
   links     Link[]
   clicks    Click[]
   events    Event[]
+  installs  MarketplaceInstall[]
 
   createdAt DateTime @default(now())
 
@@ -34,7 +35,7 @@ model User {
   plan          String         @default("free")
 
   tenantId      String
-  tenant        Tenant         @relation(fields: [tenantId], references: [id])
+  tenant        Tenant         @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   subscriptions Subscription[]
 
@@ -49,7 +50,7 @@ model Lead {
   id           String   @id @default(cuid())
 
   tenantId     String
-  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   email        String
   name         String?
@@ -70,7 +71,7 @@ model Link {
   id           String   @id @default(cuid())
 
   tenantId     String
-  tenant       Tenant   @relation(fields: [tenantId], references: [id])
+  tenant       Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   slug         String   @unique
   destination  String
@@ -86,10 +87,10 @@ model Click {
   id        String   @id @default(cuid())
 
   tenantId  String
-  tenant    Tenant   @relation(fields: [tenantId], references: [id])
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   linkId    String
-  link      Link     @relation(fields: [linkId], references: [id])
+  link      Link     @relation(fields: [linkId], references: [id], onDelete: Cascade)
 
   createdAt DateTime @default(now())
 
@@ -101,7 +102,7 @@ model Event {
   id          String   @id @default(cuid())
 
   tenantId    String
-  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenant      Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
 
   name        String
   properties  Json?
@@ -135,7 +136,7 @@ model Variant {
   conversions  Int        @default(0)
 
   experimentId String
-  experiment   Experiment @relation(fields: [experimentId], references: [id])
+  experiment   Experiment @relation(fields: [experimentId], references: [id], onDelete: Cascade)
 
   @@index([experimentId])
   @@index([name, experimentId])
@@ -152,7 +153,7 @@ model Subscription {
   id        String   @id @default(cuid())
 
   userId    String
-  user      User     @relation(fields: [userId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 
   plan      String
   status    String   @default("active")
@@ -170,4 +171,17 @@ model ProofLedger {
   createdAt DateTime @default(now())
 
   @@index([createdAt])
+}
+
+model MarketplaceInstall {
+  id        String   @id @default(cuid())
+
+  tenantId  String
+  tenant    Tenant   @relation(fields: [tenantId], references: [id], onDelete: Cascade)
+
+  appId     String
+  createdAt DateTime @default(now())
+
+  @@unique([tenantId, appId])
+  @@index([tenantId, createdAt])
 }
