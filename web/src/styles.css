@@ -1,20 +1,261 @@
+/* =====================================================
+   Nexora Copilote Full IA - styles.css (Roadmap UI Final)
+   - Thème clair/sombre (persistant via [data-theme])
+   - Layout responsive, cartes, tables, formulaires
+   - Boutons (primaire/secondaire/success/warning/danger)
+   - Dropdown/Modal helpers (notifications)
+   - Utilitaires (spacings, grid, flex)
+   ===================================================== */
+
+/* ------------------------------
+   Thèmes (dark par défaut)
+---------------------------------*/
 :root {
-  --bg:#0b1020; --panel:#121a36; --text:#eaf0ff; --muted:#9fb0d9; --accent:#7c9bff;
-  --ok:#20c997; --warn:#ffc107; --danger:#ff6b6b;
+  /* Palette dark */
+  --bg: #0b1020;
+  --panel: #121a36;
+  --text: #eaf0ff;
+  --muted: #9fb0d9;
+  --accent: #7c9bff;
+
+  --ok: #20c997;
+  --warn: #ffc107;
+  --danger: #ff6b6b;
+
+  /* Alias */
+  --card: var(--panel);
+  --primary: var(--accent);
+  --border: #25315c;
+  --panel-2: #0f1733;
+  --panel-3: #0d1631;
+
+  /* Effets */
+  --shadow-1: 0 10px 30px rgba(0, 0, 0, .25);
+  --ring: 0 0 0 2px rgba(124, 155, 255, .35);
 }
-*{box-sizing:border-box}
-body{margin:0;font-family:Inter,ui-sans-serif,system-ui;-webkit-font-smoothing:antialiased;background:var(--bg);color:var(--text)}
-a{color:var(--accent);text-decoration:none}
-.container{max-width:1200px;margin:0 auto;padding:24px}
-.card{background:var(--panel);border-radius:16px;padding:20px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
-.input{width:100%;padding:10px 12px;border-radius:10px;border:1px solid #2a355f;background:#0f1733;color:var(--text)}
-.button{background:var(--accent);border:none;padding:10px 14px;border-radius:10px;color:white;cursor:pointer;font-weight:600}
-.row{display:flex;gap:16px;align-items:center;flex-wrap:wrap}
-.nav{display:flex;gap:12px;padding:12px;background:#0d1631;border-bottom:1px solid #25315c;position:sticky;top:0;z-index:10}
-.nav a{padding:8px 12px;border-radius:8px}
-.nav a.active{background:#1a2450}
-.table{width:100%;border-collapse:collapse}
-.table th,.table td{padding:8px 10px;border-bottom:1px solid #22305d}
-.badge{display:inline-block;background:#1a2450;padding:4px 8px;border-radius:999px;font-size:12px;color:var(--muted)}
-.pager{display:flex;gap:8px;align-items:center}
-textarea.input{min-height:120px}
+
+/* Light theme */
+:root[data-theme="light"] {
+  --bg: #f6f9ff;
+  --panel: #ffffff;
+  --text: #0a1633;
+  --muted: #56719f;
+  --accent: #2b72ff;
+
+  --ok: #1aa674;
+  --warn: #e6a800;
+  --danger: #e35b5b;
+
+  --card: var(--panel);
+  --primary: var(--accent);
+  --border: #d9e4ff;
+  --panel-2: #ecf2ff;
+  --panel-3: #e7eeff;
+
+  --shadow-1: 0 10px 30px rgba(15, 30, 80, .10);
+  --ring: 0 0 0 2px rgba(43, 114, 255, .25);
+}
+
+/* ------------------------------
+   Reset de base & Typo
+---------------------------------*/
+* { box-sizing: border-box; }
+html, body, #root { height: 100%; }
+body {
+  margin: 0;
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: var(--bg);
+  color: var(--text);
+}
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+h1,h2,h3,h4 { margin: 0 0 12px 0; }
+small.mono{ font-family: ui-monospace, Menlo, Consolas, monospace; color: var(--muted); }
+
+/* ------------------------------
+   Layout
+---------------------------------*/
+.container { max-width: 1200px; margin: 0 auto; padding: 24px; }
+.row { display: flex; gap: 16px; align-items: center; flex-wrap: wrap; }
+.col { flex: 1 1 260px; }
+
+.grid { display: grid; grid-template-columns: repeat(3, minmax(0,1fr)); gap: 16px; }
+@media (max-width: 900px){ .grid{ grid-template-columns: 1fr 1fr; } }
+@media (max-width: 640px){ .grid{ grid-template-columns: 1fr; } }
+
+.card {
+  background: var(--panel);
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--border);
+}
+
+/* ------------------------------
+   Formulaires
+---------------------------------*/
+.input, select.input, textarea.input {
+  width: 100%;
+  padding: 10px 12px;
+  border-radius: 10px;
+  border: 1px solid var(--border);
+  background: var(--panel-2);
+  color: var(--text);
+  outline: none;
+  transition: box-shadow .15s ease, border-color .15s ease;
+}
+.input:focus, select.input:focus, textarea.input:focus {
+  box-shadow: var(--ring);
+  border-color: var(--accent);
+}
+textarea.input { min-height: 120px; resize: vertical; }
+
+/* ------------------------------
+   Boutons
+---------------------------------*/
+.button, .btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: var(--accent);
+  border: none;
+  padding: 10px 14px;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  font-weight: 600;
+  text-align: center;
+  border: 1px solid transparent;
+  transition: transform .04s ease, filter .2s ease, box-shadow .2s ease;
+}
+.button:hover, .btn:hover { filter: brightness(1.05); }
+.button:active, .btn:active { transform: translateY(1px); }
+.button:disabled, .btn:disabled { opacity: .6; cursor: not-allowed; }
+
+.btn.secondary {
+  background: transparent;
+  color: var(--muted);
+  border-color: #2a355f;
+}
+.btn.success { background: var(--ok); }
+.btn.warning { background: var(--warn); color: #1e1e1e; }
+.btn.danger { background: var(--danger); }
+
+/* ------------------------------
+   Navigation
+---------------------------------*/
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 12px;
+  background: var(--panel-3);
+  border-bottom: 1px solid var(--border);
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+.nav a {
+  padding: 8px 12px;
+  border-radius: 8px;
+  color: var(--text);
+}
+.nav a.active { background: #1a2450; }
+.nav .spacer { flex: 1; }
+
+.badge {
+  display: inline-block;
+  background: #1a2450;
+  padding: 4px 8px;
+  border-radius: 999px;
+  font-size: 12px;
+  color: var(--muted);
+  border: 1px solid var(--border);
+}
+
+/* ------------------------------
+   Tables
+---------------------------------*/
+.table { width: 100%; border-collapse: collapse; }
+.table th, .table td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--border);
+  text-align: left;
+  vertical-align: middle;
+}
+.table thead th { color: var(--muted); font-weight: 600; }
+.table tr:hover { background: rgba(255,255,255,.03); }
+
+.table.striped tbody tr:nth-child(odd){ background: rgba(255,255,255,.02); }
+.table.compact th, .table.compact td { padding: 6px 8px; }
+
+/* ------------------------------
+   Pagers / Helpers
+---------------------------------*/
+.pager { display: flex; gap: 8px; align-items: center; }
+.kpi { font-size: 32px; font-weight: 800; }
+
+/* ------------------------------
+   Dropdown / Notifications
+---------------------------------*/
+.dropdown {
+  position: relative;
+}
+.dropdown-menu {
+  position: absolute;
+  right: 0;
+  top: calc(100% + 8px);
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  min-width: 320px;
+  max-height: 360px;
+  overflow: auto;
+  box-shadow: var(--shadow-1);
+  padding: 10px;
+  animation: slideDown .16s ease;
+  z-index: 20;
+}
+.dropdown-item { padding: 6px 8px; border-radius: 8px; }
+.dropdown-item:hover { background: rgba(255,255,255,.04); }
+
+/* ------------------------------
+   Modals (helper minimal)
+---------------------------------*/
+.modal {
+  position: fixed; inset: 0;
+  background: rgba(0,0,0,.35);
+  display: flex; align-items: center; justify-content: center;
+  z-index: 50;
+  animation: fadeIn .16s ease;
+}
+.modal-card {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  padding: 18px;
+  width: min(560px, 94vw);
+  box-shadow: var(--shadow-1);
+}
+
+/* ------------------------------
+   Utilitaires
+---------------------------------*/
+.text-muted { color: var(--muted); }
+.flex { display: flex; }
+.flex-col { display: flex; flex-direction: column; }
+.items-center { align-items: center; }
+.justify-between { justify-content: space-between; }
+.gap-8 { gap: 8px; } .gap-12 { gap: 12px; } .gap-16 { gap: 16px; }
+.mt-8{ margin-top: 8px; } .mt-12{ margin-top:12px; } .mt-16{ margin-top:16px; } .mt-24{ margin-top:24px; }
+.mb-8{ margin-bottom: 8px; } .mb-12{ margin-bottom:12px; } .mb-16{ margin-bottom:16px; } .mb-24{ margin-bottom:24px; }
+.hidden { display: none; }
+.max-w-420 { max-width: 420px; }
+.ellipsis { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* ------------------------------
+   Animations
+---------------------------------*/
+@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+@keyframes slideDown { from { opacity: 0; transform: translateY(-4px); } to { opacity: 1; transform: translateY(0); } }
