@@ -1,0 +1,24 @@
+web/
+  package.json
+  .env.example
+  vite.config.js
+  index.html
+  Dockerfile              # (optionnel prod)
+  src/
+    main.jsx
+    App.jsx
+    styles.css
+    api.js
+    auth.js
+    components/
+      NavBar.jsx
+      ProtectedRoute.jsx
+    pages/
+      Login.jsx
+      Dashboard.jsx
+      Leads.jsx
+      Links.jsx
+      Experiments.jsx
+      Billing.jsx
+      Copilot.jsx
+      Settings.jsx
