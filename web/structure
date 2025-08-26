@@ -1,24 +1,30 @@
 web/
-  package.json
-  .env.example
-  vite.config.js
-  index.html
-  Dockerfile              # (optionnel prod)
-  src/
-    main.jsx
-    App.jsx
-    styles.css
-    api.js
-    auth.js
-    components/
-      NavBar.jsx
-      ProtectedRoute.jsx
-    pages/
-      Login.jsx
-      Dashboard.jsx
-      Leads.jsx
-      Links.jsx
-      Experiments.jsx
-      Billing.jsx
-      Copilot.jsx
-      Settings.jsx
+├── package.json
+├── .env.example
+├── vite.config.js
+├── index.html
+├── Dockerfile                         # (optionnel prod, SPA + cache + headers)
+└── src/
+    ├── main.jsx                       # Entrée Vite + Router + AuthProvider
+    ├── App.jsx                        # Navigation + pages + intégrations roadmap
+    ├── styles.css                     # Thème dark/light, UI finale (cards, tables…)
+    ├── api.js                         # axios base + withAuth(token)
+    ├── auth.js                        # Auth context (login/logout/me)
+    ├── hooks/
+    │   └── useTheme.js                # Thème clair/sombre (persistant)
+    ├── components/
+    │   ├── NavBar.jsx                 # Nav complète (badge plan, thème, cloche)
+    │   ├── ProtectedRoute.jsx         # Guard routes si nécessaire
+    │   ├── ThemeToggle.jsx            # Bouton toggle dark/light
+    │   ├── NotificationsBell.jsx      # Notifications SSE + fallback polling
+    │   └── ChartCard.jsx              # Cartes Recharts (line/bar)
+    └── pages/
+        ├── Login.jsx                  # Page de connexion
+        ├── Dashboard.jsx              # KPIs + Charts + bloc SDK + IA narrative
+        ├── Leads.jsx                  # CRUD minimal leads + pagination
+        ├── Links.jsx                  # Lien court + liste
+        ├── Experiments.jsx            # Assign/convert A/B
+        ├── Billing.jsx                # Plan + checkout (LOCAL/STRIPE/PAYPAL/CINETPAY)
+        ├── Copilot.jsx                # Outils IA (scoring/génération/pricing)
+        ├── Marketplace.jsx            # Extensions (install/désinstall UI)
+        └── Settings.jsx               # Infos API/Tenant + rappel config backend
